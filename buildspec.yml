@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing dependencies
+      - apt-get install -y docker.io
+  build:
+    commands:
+      - echo Building Docker Image
+      - docker build -t my-app .
+      - docker tag my-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app-repo:latest
+  post_build:
+    commands:
+      - echo Pushing Docker image to ECR
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+      - docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app-repo:latest
+
+artifacts:
+  files:
+    - '**/*'

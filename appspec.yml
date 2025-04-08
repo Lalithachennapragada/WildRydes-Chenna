@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /path/to/artifact
+    destination: /path/in/container
+hooks:
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 180
+      runas: root
